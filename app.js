@@ -107,7 +107,7 @@ app.listen(port, function() {
 
 function fetchTweets(res) {
     twitter.get(
-        '/statuses/user_timeline.json',
+        'https://api.twitter.com/1.1/statuses/user_timeline.json',
 
         {
             screen_name: config.twitter_handle,
