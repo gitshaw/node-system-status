@@ -32,3 +32,6 @@ config.json
 cache/date.json
 cache/tweets.json
 .idea
+
+# ssl
+ssl

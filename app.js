@@ -1,6 +1,9 @@
 var CACHE_FILE = './cache/tweets.json',
     CACHE_DATE_FILE = './cache/date.json',
     CACHE_AGE_SECONDS = 60000,
+    fs = require('fs'), 
+    http = require('http'),
+    https = require('https'),
     express = require('express'),
     _ = require('underscore'),
     expressHandlebars = require('express3-handlebars'),
@@ -13,6 +16,11 @@ var CACHE_FILE = './cache/tweets.json',
     handlebars,
     twitter_credentials,
     twitter;
+
+var options = {
+    key: fs.readFileSync('./ssl/privatekey.pem'),
+    cert: fs.readFileSync('./ssl/certificate.pem'),
+};
 
 try {
     // Try to load the credentials from a file
@@ -101,8 +109,13 @@ app.get('/', function(req, res) {
 
 });
 
+http.createServer(function (req, res) {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] });
+    res.end();
+}).listen(8080);
+
 var port = Number(process.env.PORT || 5000);
-app.listen(port, function() {
+https.createServer(options, app).listen(port, function() {
     console.log("Listening on " + port);
 });
 
