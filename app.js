@@ -4,6 +4,7 @@ var CACHE_FILE = './cache/tweets.json',
     fs = require('fs'), 
     http = require('http'),
     https = require('https'),
+    constants = require('constants'),
     express = require('express'),
     _ = require('underscore'),
     expressHandlebars = require('express3-handlebars'),
@@ -20,6 +21,25 @@ var CACHE_FILE = './cache/tweets.json',
 var options = {
     key: fs.readFileSync('./ssl/privatekey.pem'),
     cert: fs.readFileSync('./ssl/certificate.pem'),
+    secureOptions: constants.SSL_OP_NO_SSLv3 | constants.SSL_OP_NO_SSLv2,
+    ciphers: [
+      "ECDHE-RSA-AES256-SHA384",
+      "DHE-RSA-AES256-SHA384",
+      "ECDHE-RSA-AES256-SHA256",
+      "DHE-RSA-AES256-SHA256",
+      "ECDHE-RSA-AES128-SHA256",
+      "DHE-RSA-AES128-SHA256",
+      "HIGH",
+      "!aNULL",
+      "!eNULL",
+      "!EXPORT",
+      "!DES",
+      "!RC4",
+      "!MD5",
+      "!PSK",
+      "!SRP",
+      "!CAMELLIA"
+    ].join(':'),
 };
 
 try {
